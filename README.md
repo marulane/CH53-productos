@@ -7,4 +7,4 @@ Se ajustaron las imagenes para que todas se muestren del mismo tamaño en pantal
 
 >Vista Previa del index.html
 
-![Index]https://raw.githubusercontent.com/marulane/CH53-productos/refs/heads/main/assets/pagina-inicio.png
+![Index](https://raw.githubusercontent.com/marulane/CH53-productos/main/assets/pagina-inicio.png)
