@@ -1,12 +1,14 @@
 const main = document.getElementsByTagName("main").item(0);
 const productgrid = document.getElementById("product-grid");
 const customModal = document.getElementById("customModal");
+const ulMenu = document.getElementById("ulMenu");
 
 const URLMain = "https://fakestoreapi.com/products/"; //debe llevar diagonal al final para facilitar escritura de futuros parametros agregados
 //La URL regresa un array de objetos
-function getData(){
+function getData(cat){
+    productgrid.innerHTML = ""; // Limpia productos anteriores
     //const options ={"method": "GET"};
-    fetch(URLMain)//options)
+    fetch(URLMain+cat)//options)
     .then((response)=> response.json())
     .then((data)=> {
         data.forEach((e) => {
@@ -49,6 +51,29 @@ function getData(){
     });
 }//getData
 
-getData();
+
+function getCategories(){
+    const options ={"method": "GET"};
+    fetch(URLMain+"categories/", options)
+    .then((response) =>{
+        //console.log(response);
+        response.json().then((res)=>{
+            //console.log("categories:", res);
+            res.forEach((cat)=>{
+                ulMenu.insertAdjacentHTML("afterbegin",
+                    `<li><a class="dropdown-item" style="cursor:pointer;" onclick="getData('category/${(cat.replace("'","%27"))}');">${cat}</a></li>`);   //No usar el replace porque no es una solucion global, solo particular   
+            });
+        });
+    })
+    .catch((err) => {
+        main.insertAdjacentHTML("beforeend",
+            `<div class="alert alert-danger" role="alert">
+            ${err.message}
+            </div>`);
+    });
+}
+
+getCategories();
+getData("");
 
 
