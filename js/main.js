@@ -1,6 +1,13 @@
 const main = document.getElementsByTagName("main").item(0);
 const productgrid = document.getElementById("product-grid");
 const customModal = document.getElementById("customModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+const modalFooter = document.getElementById("modalFooter");
+const modalPrice = document.getElementById("modalPrice");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+
 const ulMenu = document.getElementById("ulMenu");
 
 const URLMain = "https://fakestoreapi.com/products/"; //debe llevar diagonal al final para facilitar escritura de futuros parametros agregados
@@ -20,21 +27,30 @@ function getData(cat){
                         <h5 class="card-title">${e.title}</h5>
                         <p class="card-text">${e.description.slice(0,100)}</p>
                         <div class="d-flex justify-content-center">
-                            <a href="#" class="btn btn-primary btn-detalles">Ver más</a>
+                            <a href="#" class="btn btn-primary btn-detalles"
+                            data-title="${e.title}"
+                            data-description ="${e.description}"
+                            data-category ="${e.category}"
+                            data-price ="${e.price}">
+                            Ver más</a>
                         </div>
                     </div>
                </div>
             </div>`);
         });
 
-        //Funcionalidad Modal, por terminar
-        // const botonesDetalles = document.querySelectorAll(".btn-detalles");
-        // botonesDetalles.forEach((btn) => {
-        //     btn.addEventListener("click", function(event){
-        //         event.preventDefault(); // para que no recargue la página
-        //         customModal.style.display = "block";
-        //     });
-        // });
+        //Funcionalidad Modal
+        const botonesDetalles = document.querySelectorAll(".btn-detalles");
+        botonesDetalles.forEach((btn) => {
+            btn.addEventListener("click", function(event){
+                event.preventDefault(); 
+                customModal.style.display = "block";
+                modalTitle.innerHTML= `<p>${btn.dataset.title}</p>`;
+                modalBody.innerHTML= `<p>${btn.dataset.description}</p>
+                                        <span class="badge text-bg-info">Price: $${btn.dataset.price}</span>`;
+                modalFooter.innerHTML= `<strong><mark>Category: ${btn.dataset.category}</mark></strong>`;
+            });
+        });
 
     })
     //     console.log(response);
@@ -72,6 +88,10 @@ function getCategories(){
             </div>`);
     });
 }
+
+closeModalBtn.addEventListener("click", ()=>{
+    customModal.style.display = "none";
+})
 
 getCategories();
 getData("");
